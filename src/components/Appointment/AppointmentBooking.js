@@ -1,5 +1,7 @@
 import React from 'react';
 import { format } from 'date-fns';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import auth from '../../firebase.init';
 const AppointmentBooking = ({ test, date }) => {
     const {_id, name, slots} = test;
     const handleBooking = (event) => {
@@ -7,6 +9,7 @@ const AppointmentBooking = ({ test, date }) => {
         const slot = event.target.slot.value;
         console.log(_id, name,slot)
     }
+    const [user, loading, error] = useAuthState(auth);
     return (
         <div>
             <input type="checkbox" id="my-modal-6" className="modal-toggle" />
@@ -18,11 +21,11 @@ const AppointmentBooking = ({ test, date }) => {
                         <input type="text" disabled value={format(date, 'PP')} className="input input-bordered w-full max-w-xs" />
                         <select name='slot' className="select select-bordered w-full max-w-xs">
                             {
-                                slots.map(slot => <option key={slot._id} value={slot}>{slot}</option>)
+                                slots.map((slot, index) => <option key={index} value={slot}>{slot}</option>)
                             }
                         </select>
-                        <input type="text" name='name' placeholder="Your Name" className="input input-bordered w-full max-w-xs" />
-                        <input type="email" name='email' placeholder="Email Address" className="input input-bordered w-full max-w-xs" />
+                        <input type="text" name='name' disabled value={user?.displayName || ''} className="input input-bordered w-full max-w-xs" />
+                        <input type="email" name='email' disabled value={user?.email || ''} placeholder="Email Address" className="input input-bordered w-full max-w-xs" />
                         <input type="text" name='phone' placeholder="Phone Number" className="input input-bordered w-full max-w-xs" />
                         <input type="submit" value="Submit" className="input input-bordered w-full max-w-xs bg-primary text-white" />
                     </form>

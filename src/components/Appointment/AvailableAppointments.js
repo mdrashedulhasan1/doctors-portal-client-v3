@@ -20,7 +20,7 @@ const AvailableAppointments = ({date}) => {
             </div>
             <div>
                     {
-                        test && <AppointmentBooking date={date} key={test._id} test={test}></AppointmentBooking>
+                        test && <AppointmentBooking date={date} key={test._id} test={test}  setTest={setTest}></AppointmentBooking>
                     }
                 </div>
         </div>
